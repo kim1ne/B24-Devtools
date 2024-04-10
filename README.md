@@ -85,7 +85,7 @@ $smart = new \B24\Devtools\Crm\Smart\SmartProcess($entityTypeId);
 
 $smart->getFactory(); // Вернёт фабрику смарт-процесса
 $smart->getFactoryId(); // ID смарт-процесса
-$smart->getEntityName(); // CRM_2 (например)
+$smart->getEntityName(); // Название объекта смарт-процесса, CRM_2 (например)
 $smart->compileClass(); // Отдаст неймспейс класса ORM смарт-процесса
 $smart->getContainer(); // Отсюда же можно вытащить сервис контейнер
 $smart->getRelationManager(); // RelationManager
