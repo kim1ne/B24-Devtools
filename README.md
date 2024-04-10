@@ -76,6 +76,21 @@ class AddHandler extends Operation\Action
 ```
 ![image](https://github.com/kim1ne/B24-Devtools/assets/111231185/ab98b075-780c-40d9-89f1-bb310c08b61e)
 
+### Работа с сущностью смарт-процесса
+```php
+$entityTypeId = \B24\Devtools\Crm\Smart\SmartProcess::getIdByCode('TEST');
+
+$smart = new \B24\Devtools\Crm\Smart\SmartProcess($entityTypeId);
+// Либо так: $smart = new \B24\Devtools\Crm\Smart\SmartProcess('TEST');
+
+$smart->getFactory(); // Вернёт фабрику смарт-процесса
+$smart->getFactoryId(); // ID смарт-процесса
+$smart->getEntityName(); // CRM_2 (например)
+$smart->compileClass(); // Отдаст неймспейс класса ORM смарт-процесса
+$smart->getContainer(); // Отсюда же можно вытащить сервис контейнер
+$smart->getRelationManager(); // RelationManager
+```
+
 ## Работа с денежными полями
 
 ```php
