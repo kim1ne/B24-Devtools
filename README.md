@@ -13,26 +13,28 @@ composer require b24/devtools
 Для использования инструментов необходимо подключить автозагрузчик Composer. Пример подключения:
 
 local/php_interface/init.php
+```php
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+```
 
 ## Смарт-процессы
 
 ### Подмена сервис контейнера
 
 Пример использования:
-
+```php
 use Module\Helpers\Crm\Replacement\Container;
 
 new Container([
     'TEST' => FactoryTest::class
 ]);
-
+```
 Аргументом в конструктор передаётся массив, где ключом CODE смарт-процесса, значением неймспейс его фабрики. Позволяет вызывать события ДО и ПОСЛЕ на элементе смарт-процесса. 
 
 ### Фабрика
 
 Пример фабрики:
-
+```php
 use Bitrix\Crm\Item;
 use Bitrix\Crm\Service;
 use Bitrix\Crm\Service\Context;
@@ -52,9 +54,9 @@ class FactoryTest extends Service\Factory\Dynamic
         return $operation;
     }
 }
-
+```
 ### Обработчик события на Добавление элемента:
-
+```php
 use Bitrix\Crm\Service\Operation;
 use Bitrix\Main\Result;
 use B24\Devtools\Crm\ResultOperationTrait;
@@ -71,3 +73,4 @@ class AddHandler extends Operation\Action
             ->result();
     }
 }
+```
