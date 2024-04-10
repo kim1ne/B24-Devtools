@@ -5,12 +5,14 @@
             "B24\\Devtools\\": "src/"
         }
     },
+    "license": "MIT",
     "authors": [
         {
             "name": "kim1ne"
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
-    "php": ">=8.1.0"
+    "require": {
+        "php": ">=8.1.0"
+    }
 }
