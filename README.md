@@ -55,7 +55,7 @@ class FactoryTest extends Service\Factory\Dynamic
     }
 }
 ```
-### Обработчик события на Добавление элемента:
+### Обработчик события на Добавление элемента
 ```php
 use Bitrix\Crm\Service\Operation;
 use Bitrix\Main\Result;
