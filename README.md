@@ -134,6 +134,7 @@ $children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Q
 $moneyField = '155|USD';
 $rateUsdToRub = 93.22;
 
+// либо $money = new \B24\Devtools\Data\MoneyField(155, 'USD');
 $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
     ->math(function (&$price) use ($rateUsdToRub) {
         $price = $price * $rateUsdToRub;
