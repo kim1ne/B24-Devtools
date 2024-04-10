@@ -144,3 +144,25 @@ $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
 
 echo (string) $money; // 14449.1|RUB
 ```
+
+## Кэширование битрикс в стиле ООП
+```
+$cache = new \B24\Devtools\Cache\CacheFile();
+$cache->setTtl(3600);
+$cache->write('some_kind_of_key', [
+    'name' => 'cache'
+]);
+
+$cache->getData('some_kind_of_key');
+```
+### Кэш маппер
+```php
+// Когда истечёт ttl кеша, он вызовет function, достанет оттуда значение и запишет заново в кеш
+$mapper = new \B24\Devtools\Cache\CacheMapper();
+$mapper->ttl = 3600;
+$mapper->get('some_kind_of_key', function () {
+    return [
+        'name' => 'cache'
+    ];
+});
+```
