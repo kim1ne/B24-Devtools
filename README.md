@@ -91,7 +91,6 @@ $smart->getRelationManager(); // RelationManager
 
 ### CRUD над таблицей b_crm_entity_relation
 ```php
-// ------------------------------------ //
 // Чтение связей //
 
 $children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Quote, 1)
@@ -107,25 +106,22 @@ $children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Q
     });
 
 // Если заменить метод searchChildren на searchParents, то будут искаться родители //
-
-// ------------------------------------ //
-
+```
+```php
 //  Обновление связей //
 \B24\Devtools\Crm\Relation\Manager::update(\CCrmOwnerType::Quote, 1, 152, 1)
     ->isParent() // Например если в связи надо отвязать родителя (Предложения) и привязать к другому Предложению
     ->on(\CCrmOwnerType::Quote, 2) // Привязываем к Предложению с ID = 2
     ->replace(); // Замена
-
-// ------------------------------------ //
-
+```
+```php
 // Удаление какой-то одной связи //
 \B24\Devtools\Crm\Relation\Manager::deleteOne(\CCrmOwnerType::Quote, 1, 152, 1);
 
 // У Предложения с ID = 1 удаляем все связи со смарт-процессом, у которого ID = 152
 \B24\Devtools\Crm\Relation\Manager::deleteWithType(\CCrmOwnerType::Quote, 1, 152);
-
-// ------------------------------------ //
-
+```
+```php
 // Создание связей
 
 // Создаст у Предложения с ID = 1 связь (ребёнка) со смарт-процессом с ID = 152 // 
