@@ -89,6 +89,49 @@ $smart->getContainer(); // Отсюда же можно вытащить сер�
 $smart->getRelationManager(); // RelationManager
 ```
 
+### CRUD над таблицей b_crm_entity_relation
+```php
+// ------------------------------------ //
+// Чтение связей //
+
+$children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Quote, 1)
+    ->getAll(); // Массив из ItemIdentifier всех привязанных детей к Предложению
+
+$children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Quote, 1)
+    ->withEntityTypeId(152); // Массив ID всех привязанных детей-элементов смартпроцесса с ID 152
+
+$children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Quote, 1)
+    ->withOne(function (\Bitrix\Crm\ItemIdentifier $identifier) {
+        return $identifier; // Вернёт массив из ItemIdentifier
+        return $identifier->getEntityId(); // Вернёт массив из ID ItemIdentifier
+    });
+
+// Если заменить метод searchChildren на searchParents, то будут искаться родители //
+
+// ------------------------------------ //
+
+//  Обновление связей //
+\B24\Devtools\Crm\Relation\Manager::update(\CCrmOwnerType::Quote, 1, 152, 1)
+    ->isParent() // Например если в связи надо отвязать родителя (Предложения) и привязать к другому Предложению
+    ->on(\CCrmOwnerType::Quote, 2) // Привязываем к Предложению с ID = 2
+    ->replace(); // Замена
+
+// ------------------------------------ //
+
+// Удаление какой-то одной связи //
+\B24\Devtools\Crm\Relation\Manager::deleteOne(\CCrmOwnerType::Quote, 1, 152, 1);
+
+// У Предложения с ID = 1 удаляем все связи со смарт-процессом, у которого ID = 152
+\B24\Devtools\Crm\Relation\Manager::deleteWithType(\CCrmOwnerType::Quote, 1, 152);
+
+// ------------------------------------ //
+
+// Создание связей
+
+// Создаст у Предложения с ID = 1 связь (ребёнка) со смарт-процессом с ID = 152 // 
+\B24\Devtools\Crm\Relation\Manager::create(\CCrmOwnerType::Quote, 1, 152, 1);
+```
+
 ## Работа с денежными полями
 
 ```php
