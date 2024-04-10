@@ -76,4 +76,14 @@ class AddHandler extends Operation\Action
 ```
 ![image](https://github.com/kim1ne/B24-Devtools/assets/111231185/ab98b075-780c-40d9-89f1-bb310c08b61e)
 
+## Работа с денежными полями
 
+```php
+$money = \B24\Devtools\Data\MoneyField::parse($moneyField)
+    ->math(function (&$price) use ($rateUsdToRub) {
+        $price = $price * $rateUsdToRub;
+    })->setCurrency('RUB')
+    ->round(2);
+
+echo (string) $money; // 14449.1|RUB
+```
