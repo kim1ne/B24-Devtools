@@ -79,6 +79,9 @@ class AddHandler extends Operation\Action
 ## Работа с денежными полями
 
 ```php
+$moneyField = '155|USD';
+$rateUsdToRub = 93.22;
+
 $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
     ->math(function (&$price) use ($rateUsdToRub) {
         $price = $price * $rateUsdToRub;
