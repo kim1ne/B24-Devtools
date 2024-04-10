@@ -1,1 +1,73 @@
-Инстурменты для Bitrix24 для быстрой разработки
+# Библиотека инструментов для Bitrix24
+
+Этот пакет предоставляет инструменты для быстрой разработки в среде Bitrix24.
+
+## Установка
+
+Вы можете установить этот пакет с помощью Composer:
+
+composer require b24/devtools
+
+## Подключение
+
+Для использования инструментов необходимо подключить автозагрузчик Composer. Пример подключения:
+
+local/php_interface/init.php
+require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+## Смарт-процессы
+
+### Подмена сервис контейнера
+
+Пример использования:
+
+use Module\Helpers\Crm\Replacement\Container;
+
+new Container([
+    'TEST' => FactoryTest::class
+]);
+
+Аргументом в конструктор передаётся массив, где ключом CODE смарт-процесса, значением неймспейс его фабрики. Позволяет вызывать события ДО и ПОСЛЕ на элементе смарт-процесса. 
+
+### Фабрика
+
+Пример фабрики:
+
+use Bitrix\Crm\Item;
+use Bitrix\Crm\Service;
+use Bitrix\Crm\Service\Context;
+use Bitrix\Crm\Service\Operation;
+
+class FactoryTest extends Service\Factory\Dynamic
+{
+    public function getAddOperation(Item $item, Context $context = null): Operation\Add
+    {
+        $operation = parent::getAddOperation($item, $context);
+
+        $operation->addAction(
+            Operation::ACTION_BEFORE_SAVE,
+            new AddHandler()
+        );
+
+        return $operation;
+    }
+}
+
+### Обработчик события на Добавление элемента:
+
+use Bitrix\Crm\Service\Operation;
+use Bitrix\Main\Result;
+use B24\Devtools\Crm\ResultOperationTrait;
+
+class AddHandler extends Operation\Action
+{
+    use ResultOperationTrait;
+
+    public function process(\Bitrix\Crm\Item $item): Result
+    {
+        return $this
+            ->error('Ошибка 1')
+            ->error('Ошибка 2')
+            ->result();
+    }
+}
