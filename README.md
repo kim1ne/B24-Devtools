@@ -85,7 +85,8 @@ $rateUsdToRub = 93.22;
 $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
     ->math(function (&$price) use ($rateUsdToRub) {
         $price = $price * $rateUsdToRub;
-    })->setCurrency('RUB')
+    })
+    ->setCurrency('RUB')
     ->round(2);
 
 echo (string) $money; // 14449.1|RUB
