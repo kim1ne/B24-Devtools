@@ -2,7 +2,7 @@
 
 namespace B24\Devtools\Data;
 
-use Module\Helpers\Crm\Smart\SmartDynamic;
+use B24\Devtools\Crm\Smart\SmartDynamic;
 
 class UserField
 {

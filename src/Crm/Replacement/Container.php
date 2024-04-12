@@ -10,7 +10,7 @@ use Bitrix\Main\DI;
 final class Container extends Service\Container
 {
     public function __construct(
-        private readonly array $smartCode2factory
+        private readonly array $smartCode2factory = []
     )
     {
         DI\ServiceLocator::getInstance()->addInstance('crm.service.container', $this);

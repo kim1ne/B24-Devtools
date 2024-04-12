@@ -14,13 +14,15 @@ class Iblock
 
     public function __construct(string $iblockCode)
     {
-        $this->iblockCode = ucfirst(strtolower($iblockCode));
+        $this->iblockCode = ucfirst(
+            StringHelper::stringToCamelCase($iblockCode)
+        );
         $this->className = $this->getClass();
     }
 
     private function getClass(): string
     {
-        return '\Bitrix\Iblock\Elements\Element' . StringHelper::stringToCamelCase($this->iblockCode) . 'Table';
+        return '\Bitrix\Iblock\Elements\Element' . $this->iblockCode . 'Table';
     }
 
     public function getClassName(): DataManager|string
