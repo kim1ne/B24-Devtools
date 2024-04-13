@@ -7,7 +7,7 @@ use Bitrix\Main\DI;
 
 \CModule::IncludeModule('crm');
 
-final class Container extends Service\Container
+class Container extends Service\Container
 {
     public function __construct(
         private readonly array $smartCode2factory = []
