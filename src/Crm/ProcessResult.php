@@ -10,7 +10,7 @@ class ProcessResult
      * @param Error[] $errors
      * @return string
      */
-    public static function getOneByList(array $errors): string
+    public static function getOneByList(array $errors, $separator = ', '): string
     {
         $message = [];
 
@@ -18,6 +18,6 @@ class ProcessResult
             $message[] = $error->getMessage();
         }
 
-        return implode(', ', $message);
+        return implode($separator, $message);
     }
 }

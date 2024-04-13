@@ -10,7 +10,12 @@ abstract class AbstractRelation
 {
     protected static function instanceRelationManager(): RelationManager
     {
-        return Container::getInstance()->getRelationManager();
+        return self::instanceContainer()->getRelationManager();
+    }
+
+    protected static function instanceContainer(): \Bitrix\Crm\Service\Container
+    {
+        return Container::getInstance();
     }
 
     public static function createArrayForRelationTable(

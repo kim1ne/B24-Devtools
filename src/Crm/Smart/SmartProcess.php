@@ -10,7 +10,7 @@ Loader::includeModule('crm');
 
 class SmartProcess extends SmartDynamic {
 
-    public static array $ids = [];
+    private static array $ids = [];
 
     /**
      * @param string $code
