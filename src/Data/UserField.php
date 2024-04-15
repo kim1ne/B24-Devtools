@@ -13,17 +13,8 @@ class UserField
      * @throws \Exception
      */
     public function __construct(
-        private readonly ?SmartDynamic $smartProcess = null,
-        private readonly bool          $isSmartProcess = true,
-        private readonly ?string $entityName = null
-    )
-    {
-        if ($this->isSmartProcess === true && $this->smartProcess === null) {
-            throw new \Exception('Свойство smartProcess не может быть пустое');
-        } else if ($this->isSmartProcess === false && $this->entityName === null) {
-            throw new \Exception('Свойство entityName не может быть пустое');
-        }
-    }
+        private readonly SmartDynamic|string $smartProcess
+    ) {}
 
     public function setUserFieldId(int $id): void
     {
@@ -57,8 +48,11 @@ class UserField
 
     public function getUserFields(string $fieldName): array
     {
+        $entityId = (is_string($this->smartProcess)) ? $this->smartProcess : $this->smartProcess->getEntityName();
+
         $filter = [
-            'ENTITY_ID' => $this->isSmartProcess ? $this->smartProcess->getEntityIdPrefix() : $this->entityName,
+            //'ENTITY_ID' => $this->isSmartProcess ? $this->smartProcess->getEntityIdPrefix() : $this->entityName,
+            'ENTITY_ID' => $entityId,
             'FIELD_NAME' => $fieldName
         ];
 
