@@ -51,7 +51,6 @@ class UserField
         $entityId = (is_string($this->smartProcess)) ? $this->smartProcess : $this->smartProcess->getEntityName();
 
         $filter = [
-            //'ENTITY_ID' => $this->isSmartProcess ? $this->smartProcess->getEntityIdPrefix() : $this->entityName,
             'ENTITY_ID' => $entityId,
             'FIELD_NAME' => $fieldName
         ];
