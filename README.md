@@ -144,3 +144,209 @@ $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
 
 echo (string) $money; // 14449.1|RUB
 ```
+
+# Highload-блоки
+Упрощённая работа с хайлод блокоми. Теперь хайлод блоки описываются как модели:
+
+```php
+use B24\Devtools\HighloadBlock\ActiveRecord;
+use B24\Devtools\HighloadBlock\Fields\Enumeration;
+use B24\Devtools\HighloadBlock\Fields\EnumValue;
+use B24\Devtools\HighloadBlock\Fields\Field;
+
+class ElementsCatalogHighload extends ActiveRecord
+{
+    public function getName(): string
+    {
+        return 'ElementsCatalog';
+    }
+
+    public function  getTableName(): string
+    {
+        return 'elements_catalog';
+    }
+
+    public function ruName(): string
+    {
+        return 'Элементы каталога';
+    }
+
+    public function enName(): string
+    {
+        return 'Elements catalog';
+    }
+    
+    protected function getFields(string $entityId): array
+    {
+        return [
+            new Field(
+                entityId:  $entityId,
+                fieldName: 'ENUMERATION',
+                userTypeId: UserTypeEnum::ENUMERATION,
+                multiple: true,
+                enum: new Enumeration(
+                    [
+                        new EnumValue(
+                            'Школа43',
+                            'SCHOOL43'
+                        ),
+                    ],
+                )
+            ),
+        ];
+    }
+}
+```
+Метод getFields - возвращает список полей Highload блока. По умолчанию битрикс создаёт столбец ID, его указывать не нужно.
+
+в конструктор класса Field передаётся 3 обязательных параметра, остальные можно не заполнять
+```php
+class Field
+{
+    public function __construct(
+        private string $entityId,
+        private string $fieldName,
+        private string|UserTypeEnum $userTypeId,
+        private bool $multiple = false,
+        private bool $mandatory = true,
+        private array $editFormLabel = [],
+        private array $listColumnLabel = [],
+        private array $listFilterLabel = [],
+        private array $errorMessage = [],
+        private array $helpMessage = [],
+        private ?array $settings = null,
+        private ?Enumeration $enum = null
+    ) {}
+}
+```
+Под капотом этот класс превращается в массив:
+```php
+[
+    'ENTITY_ID' => $entityId, // Название сущности
+    'FIELD_NAME' => $fieldName, // Название поля. Можно задать без UF_ - он проставится автоматически
+    'USER_TYPE_ID' => $userTypeId, // Тип пользовательского поля, можно найти в UserTypeEnum описание всех полей для хайлод блока
+    'MULTIPLE' => $multiple, // Множественное поле
+    'MANDATORY' => $mandatory, // Обязательность заполнения
+    'EDIT_FORM_LABEL' => $editFormLabel ?? $fieldName, // массив языковых сообщений вида array("ru"=>"привет", "en"=>"hello")
+    'LIST_COLUMN_LABEL' => $listColumnLabel ?? $fieldName,
+    'LIST_FILTER_LABEL' => $listFilterLabel ?? $fieldName,
+    'ERROR_MESSAGE' => $errorMessage ?? $fieldName,
+    'SETTINGS' => $settings, // массив с настройками свойства зависимыми от типа свойства. Проходят "очистку" через обработчик типа PrepareSettings.
+    'ENUM' => $enum,
+]
+```
+### Создание и Удаление хайлод блока
+
+```php
+$hl = ElementsCatalogHighload();
+$hl->createHL(); // Создание
+$hl->dropHL(); // Удаление
+```
+
+### События для хайлод блока
+
+в init.php:
+```php
+ElementsCatalogHighload::events()
+    ->onAdd(ElementsCatalogEvent::class)
+    ->onAfterAdd(ElementsCatalogEvent::class)
+    ->onBeforeAdd(ElementsCatalogEvent::class)
+    ->onDelete(ElementsCatalogEvent::class)
+    ->onAfterDelete(ElementsCatalogEvent::class)
+    ->onBeforeDelete(ElementsCatalogEvent::class)
+    ->onUpdate(ElementsCatalogEvent::class)
+    ->onAfterUpdate(ElementsCatalogEvent::class)
+    ->onBeforeUpdate(ElementsCatalogEvent::class)
+```
+Обработчик события:
+```php
+use B24\Devtools\HighloadBlock\Operation\EventTrait;
+use Bitrix\Main\ORM\Event;
+
+class ElementsCatalogEvent
+{
+    use EventTrait;
+
+    public static function onBeforeAdd(Event $event)
+    {
+        self::setError($event, 'Ошибка_1');
+    }
+}
+```
+для событий был создан трейт B24\Devtools\HighloadBlock\Operation\EventTrait для удобной записи ошибки.
+
+Если событие называется onBeforeAdd, то и метод будет статический и называться onBeforeAdd.
+
+### Миграции полей хайлод-блоков
+
+У класса, который насследует B24\Devtools\HighloadBlock\ActiveRecord, есть обязательный метод getFields, который описывает поля хайлод блока, метод migrate будет отслеживать этот список
+
+```php
+$hl = ElementsCatalogHighload();
+$hl->migrate();
+```
+
+Если удалилось какое то поле из метода getFields(), он будет отслежан и удалён из базы.
+Так же метод отслеживает изменения списка в enum:
+
+```php
+    protected function getFields(string $entityId): array
+    {
+        return [
+            new Field(
+                entityId:  $entityId,
+                fieldName: 'ENUMERATION',
+                userTypeId: UserTypeEnum::ENUMERATION,
+                multiple: true,
+                enum: new Enumeration(
+                    [
+                        new EnumValue(
+                            value: 'Школа43',
+                            xmlId: 'SCHOOL43',
+                            def: false, // поле поумолчанию?
+                            sort: 500
+                        ),
+                    ],
+                )
+            ),
+        ];
+    }
+```
+
+Если в enum будет добавлен ещё один EnumValue, то он добавится так же в список БД, уникальность определяется по xmlId.
+Если удалить из списка какой нибудь EnumValue, он так же удалится из базы
+Если у EnumValue изменится либо value, либо def - значение списка обновится
+
+### Удобная вставка/обновление записи в highload-блоке
+
+Запись:
+```php
+$hl = new ElementsCatalogHighload();
+$transfer = $hl->getTransfer();
+$result = $transfer
+    ->set('NAME', 'Имя')
+    ->setEnumByXmlId('ENUMERATION', 'SCHOOL43')
+    ->saveExistingFile('FILE', 'log.txt') // Все пути будут складываться от $_SERVER['DOCUMENT_ROOT'] . '/'
+    ->setDateTime('DATE', new \Bitrix\Main\Type\DateTime()) // второй аргумент такой уже поумолчанию
+    ->setBoolean('BOOLEAN', true)
+    ->save();
+```
+Обновить запись:
+```php
+$hl = new ElementsCatalogHighload();
+$transfer = $hl->getTransfer(id: 1);
+$result = $transfer
+    ->set('NAME', 'Имя')
+    ->save();
+```
+
+во всех методах set можно вначале не указывать у названия поля UF_ - он проставится автоматически если его нет.
+Так же нет необходимости запоминать какое-то множественное поле чтобы вместо строки задать массив строк, это уже умеет делать Хелпер, он смотрит описанные поля в методе getFields и если $multiple = true, он считает это поле множественным:
+```php
+$hl = new ElementsCatalogHighload();
+$transfer = $hl->getTransfer();
+$transfer
+    ->setEnumByXmlId('ENUMERATION', 'SCHOOL43')
+    ->setEnumByXmlId('ENUMERATION', 'SCHOOL44')
+```
+Под капотом в UF_ENUMERATION будет записан массив из двух значений.

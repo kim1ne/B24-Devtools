@@ -9,9 +9,6 @@ class UserField
     public bool $isOne = true;
     private int $userFieldId = 0;
 
-    /**
-     * @throws \Exception
-     */
     public function __construct(
         private readonly SmartDynamic|string $smartProcess
     ) {}
@@ -21,7 +18,7 @@ class UserField
         $this->userFieldId = $id;
     }
 
-    public function getUserFieldsValue(array $filter = []): array|false
+    public function getUserFieldValue(array $filter = []): array|false
     {
         $filter = [
             'USER_FIELD_ID' => $this->userFieldId,
@@ -46,12 +43,10 @@ class UserField
         return $result;
     }
 
-    public function getUserFields(string $fieldName): array
+    public function getUserField(string $fieldName = null, int $id = null): array
     {
-        $entityId = (is_string($this->smartProcess)) ? $this->smartProcess : $this->smartProcess->getEntityName();
-
         $filter = [
-            'ENTITY_ID' => $entityId,
+            'ENTITY_ID' => $this->getEntityId(),
             'FIELD_NAME' => $fieldName
         ];
 
@@ -66,5 +61,36 @@ class UserField
         $this->userFieldId = $res['ID'];
 
         return $res;
+    }
+
+    public function delete(): void
+    {
+        $obUserField = new \CUserTypeEntity();
+        $obUserField->Delete($this->userFieldId);
+    }
+
+    public function getEntityId(): string
+    {
+        return (is_string($this->smartProcess)) ? $this->smartProcess : $this->smartProcess->getEntityName();
+    }
+
+    public function listName(): array
+    {
+        $filter = [
+            'ENTITY_ID' => $this->getEntityId(),
+        ];
+
+        $res = \Bitrix\Main\UserFieldTable::getList([
+            'filter' => $filter
+        ]);
+
+        $fields = [];
+
+        while($field = $res->fetch()) {
+            $name = $field['FIELD_NAME'];
+            $fields[$name] = $field;
+        }
+
+        return $fields;
     }
 }
