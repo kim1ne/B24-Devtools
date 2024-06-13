@@ -19,7 +19,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 # Смарт-процессы
 
-### Создание Смарт-процесса
+### Создание Смарт-процесса с чистого листа
 
 ```php
 $dto = \B24\Devtools\Crm\Smart\SmartMapper::create(title: 'TEST', code: 'TEST', name: 'TEST'|null);
