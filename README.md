@@ -14,8 +14,6 @@
 * Highload-блоки
 
 # Установка
-
-Вы можете установить этот пакет с помощью Composer:
 ```php
 composer require b24/devtools
 ```
