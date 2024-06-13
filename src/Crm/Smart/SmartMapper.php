@@ -28,12 +28,7 @@ class SmartMapper
             $controller->addAction($fields);
 
             if (!empty($errors = $controller->getErrors())) {
-                $arr = [];
-                foreach ($errors as $error) {
-                    $arr[] = $error->getMessage();
-                }
-
-                throw new \Exception(implode(', ', $arr));
+                throw new \Exception(self::getStringError($errors));
             }
 
             return self::setCodeByEntityId($code, $newEntityTypeId, $name);
@@ -43,6 +38,20 @@ class SmartMapper
 
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @return string
+     * @param \Bitrix\Main\Error[] $errors
+     */
+    private static function getStringError(array $errors): string
+    {
+        $arr = [];
+        foreach ($errors as $error) {
+            $arr[] = $error->getMessage();
+        }
+
+        return implode(', ', $arr);
     }
 
     public static function setCodeByEntityId(string $code, int $entityTypeId, string $name = null): SmartDto
@@ -83,11 +92,7 @@ class SmartMapper
         $result = TypeTable::update($id, $data);
 
         if (!$result->isSuccess()) {
-            $arr = [];
-            foreach ($result->getErrors() as $error) {
-                $arr[] = $error->getMessage();
-            }
-            throw new \Exception(implode(', ', $arr));
+            throw new \Exception(self::getStringError($result->getErrors()));
         }
 
         return new SmartDto($id, $entityTypeId, $code);
@@ -168,12 +173,7 @@ class SmartMapper
         $controller->deleteAction($type);
 
         if (!empty($errors = $controller->getErrors())) {
-            $arr = [];
-            foreach ($errors as $error) {
-                $arr[] = $error->getMessage();
-            }
-
-            throw new \Exception(implode(', ', $arr));
+            throw new \Exception(self::getStringError($errors));
         }
 
         return true;
@@ -183,8 +183,7 @@ class SmartMapper
     {
         try {
             self::deleteByCodeOrEntityId($code);
-        } catch (\Throwable $exception) {
-        }
+        } catch (\Throwable $exception) {}
 
         return true;
     }
@@ -198,12 +197,7 @@ class SmartMapper
         $controller->deleteAction($type);
 
         if (!empty($errors = $controller->getErrors())) {
-            $arr = [];
-            foreach ($errors as $error) {
-                $arr[] = $error->getMessage();
-            }
-
-            throw new \Exception(implode(', ', $arr));
+            throw new \Exception(self::getStringError($errors));
         }
 
         return true;
@@ -213,8 +207,7 @@ class SmartMapper
     {
         try {
             self::deleteById($id);
-        } catch (\Throwable $exception) {
-        }
+        } catch (\Throwable $exception) {}
 
         return true;
     }
