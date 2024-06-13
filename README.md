@@ -2,16 +2,16 @@
 
 * [Установка](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Установка)
 * [Подключение](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Подключение)
-* Смарт-процессы
-   * Создание смарт-процесса с чистого листа
-   * Удаление смарт-процесса
-   * Подмена сервис контейнера
-   * Пример фабрики
-   * Обработчик события на Добавление элемента
-   * Работа с сущностью смарт-процесса
-* CRUD над таблицей b_crm_entity_relation
-* Работа с денежными полями
-* Highload-блоки
+* [Смарт-процессы](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Смарт-процессы)
+   * [Создание смарт-процесса с чистого листа](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Создание-смарт-процесса-с-чистого-листа)
+   * [Удаление смарт-процесса](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удаление-смарт-процесса)
+   * [Подмена сервис контейнера](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Подмена-сервис-контейнера)
+   * [Пример фабрики](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Пример-фабрики)
+   * [Обработчик события на Добавление элемента](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Обработчик-события-на-Добавление-элемента)
+   * [Работа с сущностью смарт-процесса](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Работа-с-сущностью-смарт-процесса)
+* [CRUD над таблицей b_crm_entity_relation](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#CRUD-над-таблицей-b_crm_entity_relation)
+* [Работа с денежными полями](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Работа-с-денежными-полями)
+* [Highload-блоки](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Highload-блоки)
 
 # Установка
 ```php
