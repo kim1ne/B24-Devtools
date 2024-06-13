@@ -12,7 +12,21 @@ Loader::includeModule('crm');
 
 class Mapper
 {
-    public static function create(string $title , string $code, string $name = null)
+    public readonly SmartDynamic $smart;
+    public readonly string $entityName;
+
+    public function __construct(
+        public readonly int $id,
+        public readonly int $entityTypeId,
+        public readonly string $code,
+    )
+    {
+        $smart = new SmartProcess($this->entityTypeId);
+        $this->entityName = $smart->getEntityName();
+        $this->smart = $smart;
+    }
+
+    public static function create(string $title , string $code, string $name = null): self
     {
         if (empty($name)) throw new \Exception("name don't must be empty");
 
@@ -54,7 +68,7 @@ class Mapper
         return implode(', ', $arr);
     }
 
-    public static function setCodeByEntityId(string $code, int $entityTypeId, string $name = null): DTO
+    public static function setCodeByEntityId(string $code, int $entityTypeId, string $name = null): self
     {
         $res = TypeTable::getList([
             'select' => ['ID'],
@@ -95,7 +109,7 @@ class Mapper
             throw new \Exception(self::getStringError($result->getErrors()));
         }
 
-        return new DTO($id, $entityTypeId, $code);
+        return new self($id, $entityTypeId, $code);
     }
 
     private static function getFields(int $id, string $name, string $title): array
