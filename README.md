@@ -22,11 +22,11 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 ### Создание Смарт-процесса с чистого листа
 
 ```php
-$dto = \B24\Devtools\Crm\Smart\SmartMapper::create(title: 'TEST', code: 'TEST', name: 'TEST'|null);
+$dto = \B24\Devtools\Crm\Smart\Mapper::create(title: 'TEST', code: 'TEST', name: 'TEST'|null);
 ```
-При успешном создании отдаст объект класса \B24\Devtools\Crm\Smart\SmartDto
+При успешном создании отдаст объект класса \B24\Devtools\Crm\Smart\Mapper
 ```php
-class SmartDto
+class Mapper
 {
     public readonly \B24\Devtools\Crm\Smart\SmartDynamic $smart;
     public readonly string $entityName;
@@ -41,16 +41,18 @@ class SmartDto
 
 ### Удаление Смарт-процесса
 По символьному коду, либо по ENTITY_ID сущности
+
 ```php
-\B24\Devtools\Crm\Smart\SmartMapper::deleteByCodeOrEntityId($code|$entityTypeId)
+\B24\Devtools\Crm\Smart\Mapper::deleteByCodeOrEntityId($code|$entityTypeId)
 // Либо
-\B24\Devtools\Crm\Smart\SmartMapper::deleteByCodeOrEntityIdIfExists($code|$entityTypeId)
+\B24\Devtools\Crm\Smart\Mapper::deleteByCodeOrEntityIdIfExists($code|$entityTypeId)
 ```
 По ID из таблицы b_crm_dynamic_type
+
 ```php
-\B24\Devtools\Crm\Smart\SmartMapper::deleteById($id);
+\B24\Devtools\Crm\Smart\Mapper::deleteById($id);
 // Либо
-\B24\Devtools\Crm\Smart\SmartMapper::deleteByIdIfExists($id)
+\B24\Devtools\Crm\Smart\Mapper::deleteByIdIfExists($id)
 ```
 
 ### Подмена сервис контейнера
