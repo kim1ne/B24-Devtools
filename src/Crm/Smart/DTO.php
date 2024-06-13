@@ -2,7 +2,7 @@
 
 namespace B24\Devtools\Crm\Smart;
 
-class SmartDto
+class DTO
 {
     public readonly SmartDynamic $smart;
     public readonly string $entityName;

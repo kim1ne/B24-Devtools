@@ -10,7 +10,7 @@ use Bitrix\Main\Loader;
 
 Loader::includeModule('crm');
 
-class SmartMapper
+class Mapper
 {
     public static function create(string $title , string $code, string $name = null)
     {
@@ -54,7 +54,7 @@ class SmartMapper
         return implode(', ', $arr);
     }
 
-    public static function setCodeByEntityId(string $code, int $entityTypeId, string $name = null): SmartDto
+    public static function setCodeByEntityId(string $code, int $entityTypeId, string $name = null): DTO
     {
         $res = TypeTable::getList([
             'select' => ['ID'],
@@ -95,7 +95,7 @@ class SmartMapper
             throw new \Exception(self::getStringError($result->getErrors()));
         }
 
-        return new SmartDto($id, $entityTypeId, $code);
+        return new DTO($id, $entityTypeId, $code);
     }
 
     private static function getFields(int $id, string $name, string $title): array
