@@ -14,26 +14,26 @@ class SmartProcess extends SmartDynamic {
 
     /**
      * @param string $code
-     * @return int
+     * @return array
      * @throws ObjectNotFoundException
      */
-    public static function getIdByCode(string $code): int
+    public static function getIdByCode(string $code): array
     {
         return self::$ids[$code] ?? self::byCode($code);
     }
 
     /**
      * @param string $code
-     * @return int
+     * @return array
      * @throws ObjectNotFoundException
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\ObjectPropertyException
      * @throws \Bitrix\Main\SystemException
      */
-    private static function byCode(string $code): int
+    private static function byCode(string $code): array
     {
         $arEntity = TypeTable::getList([
-            'select' => ['ENTITY_TYPE_ID'],
+            'select' => ['ENTITY_TYPE_ID', 'ID'],
             'filter' => [
                 '=CODE' => $code
             ],
@@ -43,10 +43,8 @@ class SmartProcess extends SmartDynamic {
             throw new ObjectNotFoundException("Dynamic ' . $code . ' not found");
         }
 
-        $entityType = (int) $entity['ENTITY_TYPE_ID'];
+        self::$ids[$code] = $entity;
 
-        self::$ids[$code] = $entityType;
-
-        return $entityType;
+        return $entity;
     }
 }

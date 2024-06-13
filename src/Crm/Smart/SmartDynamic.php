@@ -20,6 +20,7 @@ abstract class SmartDynamic
     protected Container $container;
     protected Factory $factory;
     protected int $factoryId;
+    protected ?int $id = null;
     protected string $entityIdPrefix;
 
     /**
@@ -68,9 +69,39 @@ abstract class SmartDynamic
     public function getFactoryId(): int
     {
         if (!isset($this->factoryId)) {
-            $this->factoryId = SmartProcess::getIdByCode($this->code);
+            $data = SmartProcess::getIdByCode($this->code);
+            $this->factoryId = $data['ENTITY_TYPE_ID'];
+            $this->id = $data['ID'];
         }
         return $this->factoryId;
+    }
+
+    public function getId(): ?int
+    {
+        if (!isset($this->id)) {
+            if (!isset($this->code)) {
+                $res = TypeTable::getList([
+                    'select' => ['ID', 'ENTITY_TYPE_ID'],
+                    'filter' => ['ENTITY_TYPE_ID' => $this->factoryId]
+                ]);
+
+                $data = $res->fetch();
+
+                if ($data === false) {
+                    throw new \Exception('Not Found Dynamic By ENTITY_TYPE_ID = ' . $this->factoryId);
+                }
+
+                $this->factoryId = $data['ENTITY_TYPE_ID'];
+                $this->id = $data['ID'];
+
+            } else {
+                $data = SmartProcess::getIdByCode($this->code);
+                $this->factoryId = $data['ENTITY_TYPE_ID'];
+                $this->id = $data['ID'];
+            }
+        }
+
+        return $this->id;
     }
 
     /**

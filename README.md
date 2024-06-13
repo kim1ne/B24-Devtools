@@ -2,13 +2,13 @@
 
 Этот пакет предоставляет инструменты для быстрой разработки в среде Bitrix24.
 
-## Установка
+# Установка
 
 Вы можете установить этот пакет с помощью Composer:
 ```php
 composer require b24/devtools
 ```
-## Подключение
+# Подключение
 
 Для использования инструментов необходимо подключить автозагрузчик Composer. Пример подключения:
 
@@ -17,7 +17,41 @@ local/php_interface/init.php
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 ```
 
-## Смарт-процессы
+# Смарт-процессы
+
+### Создание Смарт-процесса
+
+```php
+$dto = \B24\Devtools\Crm\Smart\SmartMapper::create(title: 'TEST', code: 'TEST', name: 'TEST'|null);
+```
+При успешном создании отдаст объект класса \B24\Devtools\Crm\Smart\SmartDto
+```php
+class SmartDto
+{
+    public readonly \B24\Devtools\Crm\Smart\SmartDynamic $smart;
+    public readonly string $entityName;
+
+    public function __construct(
+        public readonly int $id,
+        public readonly int $entityTypeId,
+        public readonly string $code,
+    ) {}
+}
+```
+
+### Удаление Смарт-процесса
+По символьному коду, либо по ENTITY_ID сущности
+```php
+\B24\Devtools\Crm\Smart\SmartMapper::deleteByCodeOrEntityId($code|$entityTypeId)
+// Либо
+\B24\Devtools\Crm\Smart\SmartMapper::deleteByCodeOrEntityIdIfExists($code|$entityTypeId)
+```
+По ID из таблицы b_crm_dynamic_type
+```php
+\B24\Devtools\Crm\Smart\SmartMapper::deleteById($id);
+// Либо
+\B24\Devtools\Crm\Smart\SmartMapper::deleteByIdIfExists($id)
+```
 
 ### Подмена сервис контейнера
 
@@ -75,6 +109,7 @@ class AddHandler extends Operation\Action
 ![image](https://github.com/kim1ne/B24-Devtools/assets/111231185/ab98b075-780c-40d9-89f1-bb310c08b61e)
 
 ### Работа с сущностью смарт-процесса
+\B24\Devtools\Crm\Smart\SmartProcess насследует \B24\Devtools\Crm\Smart\SmartDynamic
 ```php
 $entityTypeId = \B24\Devtools\Crm\Smart\SmartProcess::getIdByCode('TEST');
 
@@ -89,7 +124,7 @@ $smart->getContainer(); // Отсюда же можно вытащить сер�
 $smart->getRelationManager(); // RelationManager
 ```
 
-### CRUD над таблицей b_crm_entity_relation
+# CRUD над таблицей b_crm_entity_relation
 ```php
 // Чтение связей //
 
@@ -128,7 +163,7 @@ $children = \B24\Devtools\Crm\Relation\Manager::searchChildren(\CCrmOwnerType::Q
 \B24\Devtools\Crm\Relation\Manager::create(\CCrmOwnerType::Quote, 1, 152, 1);
 ```
 
-## Работа с денежными полями
+# Работа с денежными полями
 
 ```php
 $moneyField = '155|USD';
