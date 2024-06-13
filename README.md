@@ -12,6 +12,9 @@
 * [CRUD над таблицей b_crm_entity_relation](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#CRUD-над-таблицей-b_crm_entity_relation)
 * [Работа с денежными полями](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Работа-с-денежными-полями)
 * [Highload-блоки](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Highload-блоки)
+   * [Создание и Удаление хайлод блока](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Создание-и-Удаление-хайлод-блока)
+   * [События для хайлод блока](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#События-для-хайлод-блока)
+   * [Удобная вставка/обновление записи в highload-блоке](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удобная-вставка/обновление-записи-в-highload-блоке)
 
 # Установка
 ```php
