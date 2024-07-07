@@ -13,6 +13,7 @@
 * [Работа с денежными полями](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Работа-с-денежными-полями)
 * [Highload-блоки](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Highload-блоки)
    * [Создание и Удаление хайлод блока](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Создание-и-Удаление-хайлод-блока)
+   * [Миграции полей хайлод-блоков](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Миграции-полей-хайлод-блоков)
    * [События для хайлод блока](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#События-для-хайлод-блока)
    * [Удобная вставка/обновление записи в highload-блоке](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удобная-вставкаобновление-записи-в-highload-блоке)
 
