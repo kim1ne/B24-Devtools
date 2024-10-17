@@ -16,6 +16,11 @@
    * [Миграции полей хайлод-блоков](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Миграции-полей-хайлод-блоков)
    * [События для хайлод блока](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#События-для-хайлод-блока)
    * [Удобная вставка/обновление записи в highload-блоке](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удобная-вставкаобновление-записи-в-highload-блоке)
+* [StepProcessing (Пошаговая обработка)](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#StepProcessing-(Пошаговая-обработка))
+  * [Генерация объекта](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Генерация-объекта)
+  * [Динамическая подгрузка очереди](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Динамическая-подгрузка-очереди)
+  * [Экшен Контроллера для Пошаговой обработки](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Экшен-Контроллера-для-Пошаговой-обработки)
+  * [Пошаговая запись в Excel-файл](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Пошаговая-запись-в-Excel-файл)
 
 # Установка
 ```php
@@ -402,3 +407,127 @@ $transfer
     ->setEnumByXmlId('ENUMERATION', 'SCHOOL44')
 ```
 Под капотом в UF_ENUMERATION будет записан массив из двух значений.
+
+# StepProcessing (Пошаговая обработка)
+Документация Bitrix: https://dev.1c-bitrix.ru/api_d7/bitrix/ui/stepprocessing/examples.php
+
+### Генерация объекта
+```php
+use B24\Devtools\Process\UI\Fillers\Buttons;
+use B24\Devtools\Process\UI\Fillers\Handler;
+use B24\Devtools\Process\UI\Fillers\Messages;
+use B24\Devtools\Process\UI\Fillers\Queue;
+use B24\Devtools\Process\UI\Step\Result;
+use B24\Devtools\Process\UI\StepProcessing;
+
+$process = new StepProcessing(
+    id: 'uniq_id',
+    controller: 'module:name.controllers.Process', // только контроллеры модуля
+    messages: new Messages(
+        DialogTitle: "Title",
+        DialogSummary: "Description",
+        DialogStartButton: "StartButton",
+        DialogStopButton: "StopButton",
+        DialogCloseButton: "CloseButton",
+        RequestCanceling: "Canceling...",
+        RequestCanceled: "Canceled",
+        RequestCompleted: "Completed",
+        DialogExportDownloadButton: "ExportDownloadButton",
+        DialogExportClearButton: "ExportClearButton",
+    )
+);
+
+$process->setButtons(new Buttons(start: true, close: true, stop: true));
+
+$process->setQueue(
+    new Queue(action: 'run', title: 'Page generation 1', params: ['page' => 1]),
+    new Queue(action: 'run', title: 'Page generation 2', params: ['page' => 2]),
+    new Queue(action: 'run', title: 'Page generation 3', params: ['page' => 3]),
+    new Queue(action: 'run', title: 'Page generation 4', params: ['page' => 4]),
+);
+
+$process->setHandlers(
+    new Handler(
+        callbackType: Handler::StateChanged,
+        body: '
+        function (state, result) {
+            if (state !== "' . Result::COMPLETED . '") {
+                return;
+            }
+            
+            console.log(result);
+        }
+        '
+    )
+);
+
+$process->initJS();
+```
+```html
+<div
+    id="processing"
+    class="ui-btn ui-btn-light-border"
+    onclick="<?=$process->showDialog() ?>"
+>
+    Process
+</div>
+```
+![img4.jpg](img4.jpg)
+
+### Динамическая подгрузка очереди
+```js
+<script>
+    let process = <?=$process->toJsObject() ?>.setQueue([...queue])
+</script>
+```
+
+### Экшен Контроллера для Пошаговой обработки
+```php
+use B24\Devtools\Process\UI\Step\Result;
+
+public function runAction(): array
+{
+    return (new Result(
+        status: true,
+        processedItems: $countElement,
+        totalItems: $totalElements
+    ))->toArray();
+}
+```
+![img.png](img.png)
+
+### Пошаговая запись в Excel-файл
+```php
+use B24\Devtools\Excel\IteratorManager;
+
+$header = ['ID', 'Name', 'Last Name'];
+$limit = 2;
+$filePath = '/upload/file.xlsx';
+
+$rows = [
+    ['1', 'John', 'Hovewer'],
+    ['2', 'Freken', 'Bock'],
+];
+
+// Первая итерация
+$manager = new IteratorManager(
+    filePath: $filePath,
+    page: 1,
+    limit: $limit
+);
+
+$manager->setHeaderRow($header)
+    ->setRows($rows)
+    ->saveFile();
+
+// Вторая итерация
+$manager = new \B24\Devtools\Excel\IteratorManager(
+    filePath: $filePath,
+    page: 2,
+    limit: $limit
+);
+
+$manager->setRows($rows)
+    ->saveFile();
+```
+![img5.jpg](img5.jpg)
