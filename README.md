@@ -495,6 +495,11 @@ public function runAction(): array
         totalItems: $totalPages
     ))->toArray();
 }
+
+public function cancelAction(): array
+{
+    return Result::cancel();
+}
 ```
 ![img](https://github.com/user-attachments/assets/ed936434-24e5-486b-a9c9-78be428830ad)
 
