@@ -472,7 +472,7 @@ $process->initJS();
     Process
 </div>
 ```
-![img4.jpg](img4.jpg)
+![img4](https://github.com/user-attachments/assets/c4450134-83b4-4d61-a525-3734c86c9461)
 
 ### Динамическая подгрузка очереди
 ```js
@@ -494,7 +494,8 @@ public function runAction(): array
     ))->toArray();
 }
 ```
-![img.png](img.png)
+![img](https://github.com/user-attachments/assets/ed936434-24e5-486b-a9c9-78be428830ad)
+
 
 ### Пошаговая запись в Excel-файл
 ```php
@@ -530,4 +531,4 @@ $manager = new \B24\Devtools\Excel\IteratorManager(
 $manager->setRows($rows)
     ->saveFile();
 ```
-![img5.jpg](img5.jpg)
+![img5](https://github.com/user-attachments/assets/8c29e0c2-5596-4112-8bc1-72cb305c3171)
