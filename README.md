@@ -488,6 +488,7 @@ use B24\Devtools\Process\UI\Step\Result;
 public function runAction(): array
 {
     $page = $this->request->get('page') ?? 1;
+    
     return (new Result(
         status: true,
         processedItems: $page,
