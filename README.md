@@ -51,7 +51,14 @@ $application = new \B24\Devtools\Application(
         ]
     ])
 );
-unset($application); // чтобы не висело в памяти
+
+// ИЛИ
+// $application = new \B24\Devtools\Application(
+//     (new \B24\Devtools\Configuration())
+//         ->setController('\\Some\\Namespace', 'custom')
+//         ->setController(...)
+// );
+unset($application); // Чтобы не висело в памяти
 ```
 Из js будет доступна отправка запроса в контроллер:
 ```js
