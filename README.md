@@ -42,7 +42,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 С помощью этого можно регистрировать свои контроллеры не создавая модуль. 
 В init.php добавить:
 ```php
-$application = new \B24\Devtools\Application(
+new \B24\Devtools\Application(
     new \B24\Devtools\Configuration([
         'controllers' => [
             'namespaces' => [
@@ -53,13 +53,11 @@ $application = new \B24\Devtools\Application(
 );
 
 // ИЛИ
-$application = new \B24\Devtools\Application(
+new \B24\Devtools\Application(
     (new \B24\Devtools\Configuration())
         ->setController('\\Some\\Namespace', 'custom')
         ->setController(...)
 );
-
-unset($application); // Чтобы не висело в памяти
 ```
 Из js будет доступна отправка запроса в контроллер:
 ```js
