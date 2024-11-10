@@ -2,6 +2,7 @@
 
 * [Установка](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Установка)
 * [Подключение](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Подключение)
+* Регистрация библиотеки как Модуль в системе
 * [Смарт-процессы](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Смарт-процессы)
    * [Создание смарт-процесса с чистого листа](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Создание-смарт-процесса-с-чистого-листа)
    * [Удаление смарт-процесса](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удаление-смарт-процесса)
@@ -36,6 +37,27 @@ local/php_interface/init.php
 ```php
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 ```
+
+# Регистрация библиотеки как Модуль в системе
+С помощью этого можно регистрировать контроллеры вне какого-то модуля. 
+В init.php добавить:
+```php
+$application = new \B24\Devtools\Application(
+    new \B24\Devtools\Configuration([
+        'controllers' => [
+            'namespaces' => [
+                '\\Some\\Namespace' => 'custom'
+            ]
+        ]
+    ])
+);
+unset($application); // чтобы не висело в памяти
+```
+Из js будет доступна отправка запроса в контроллер:
+```js
+BX.ajax.runAction('b24:devtools.custom.ControllerName.actionName')
+```
+[Контроллеры в битрикс](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=6436&LESSON_PATH=3913.3516.5062.3750.6436&ysclid=m3bybd65q2512401672)
 
 # Смарт-процессы
 
