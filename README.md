@@ -58,6 +58,8 @@ new \B24\Devtools\Application(
         ->setController('\\Some\\Namespace', 'custom')
         ->setController(...)
 );
+
+\CModule::IncludeModule('b24.devtools'); // Вернёт true
 ```
 Из js будет доступна отправка запроса в контроллер:
 ```js
