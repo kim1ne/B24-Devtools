@@ -2,7 +2,7 @@
 
 * [Установка](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Установка)
 * [Подключение](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Подключение)
-* [Регистрация библиотеки как Модуль в системе](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#регистрация-библиотеки-как-модуль-в-системе)
+* [Регистрация библиотеки как Модуль в системе Bitrix](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#регистрация-библиотеки-как-модуль-в-системе-bitrix)
 * [Смарт-процессы](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Смарт-процессы)
    * [Создание смарт-процесса с чистого листа](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Создание-смарт-процесса-с-чистого-листа)
    * [Удаление смарт-процесса](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Удаление-смарт-процесса)
@@ -38,7 +38,7 @@ local/php_interface/init.php
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 ```
 
-# Регистрация библиотеки как Модуль в системе
+# Регистрация библиотеки как Модуль в системе Bitrix
 С помощью этого можно регистрировать свои контроллеры не создавая модуль. 
 В init.php добавить:
 ```php
