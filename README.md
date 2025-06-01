@@ -93,7 +93,6 @@ class FactoryTest extends Service\Factory\Dynamic
 ```php
 use Bitrix\Crm\Service\Operation;
 use Bitrix\Main\Result;
-use B24\Devtools\Crm\ResultOperationTrait;
 
 class AddHandler extends Operation\Action
 {
