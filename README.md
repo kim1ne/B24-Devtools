@@ -219,3 +219,29 @@ $enum = Enum::getByHlBlockName($hlBlockName, $fieldName, $xmlId);
 $enum = Enum::getBySmartProcessCode($smartProcessCode, $fieldName, $xmlId);
 $enum = Enum::getBySmartProcessName($smartProcessName, $fieldName, $xmlId);
 ```
+
+# Iblock
+```php
+use B24\Devtools\Data\Iblock;
+
+$code = Iblock::getCodeById($iblockId);
+$iblockId = Iblock::getIdByCode($iblockCode);
+
+$iblock = Iblock::generateByCode($iblockCode);
+// ИЛИ
+$iblock = Iblock::generateById($iblockId);
+
+$iblock->getIblockId();
+$iblock->getTableProperties();
+$iblock->getPropertyIdByName('PROPERTY_NAME')
+
+$res = $iblock->getListWithProperties(
+    properties: ['PROPERTY_NAME'],
+    select: $select,
+    filter: $filter, 
+    order: $order, 
+    limit: $limit, 
+    offset: $offset,
+    runtime: $runtime 
+)
+```
