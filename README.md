@@ -123,3 +123,80 @@ $money = \B24\Devtools\Data\MoneyField::parse($moneyField)
 
 echo (string) $money; // 14449.1|RUB
 ```
+
+# Пользовательские поля
+
+### UserFieldService
+```php
+$service = \B24\Devtools\UserField\UserFieldService::getInstance();
+
+ /**
+ * @var \B24\Devtools\UserField\UserField $field 
+ */
+$field = $service->getField($entityId, $fieldName);
+$field = $service->getFieldByHlBlockId($hlBlockId, $fieldName);
+$field = $service->getFieldByEntityTypeId($entityTypeId, $fieldName);
+$field = $service->getFieldByHlBlockName($hlBlockName, $fieldName);
+$field = $service->getFieldBySmartProcessCode($smartProcessCode, $fieldName);
+$field = $service->getFieldBySmartProcessName($smartProcessName, $fieldName);
+```
+
+### UserField
+
+```php
+use B24\Devtools\UserField\UserFieldService;
+
+$service = UserFieldService::getInstance();
+$field = $service->getField($entityId, $fieldName);
+
+$field->entityId;
+$field->fieldCode;
+$field->id;
+$field->isMandatory;
+$field->isMultiple;
+$field->settings;
+$field->userTypeId;
+$field->xmlId;
+$field->getEnums();
+$field->getLang();
+$field->isBooleanType();
+$field->isEnumType();
+$field->isFileType();
+// .....
+```
+
+### EnumCollection
+
+```php
+use B24\Devtools\UserField\UserFieldService;
+
+$service = UserFieldService::getInstance();
+$field = $service->getField($entityId, $fieldName);
+$enumsCollection = $field->getEnums();
+$enums = $enumsCollection->get();
+$enum = $enumsCollection->findByValue($value);
+$enum = $enumsCollection->findByXmlId($xmlId);
+$enumDefault = $enumsCollection->findDefault();
+```
+
+### Enum
+```php
+use B24\Devtools\UserField\Enum;
+use B24\Devtools\UserField\UserFieldService;
+
+$service = UserFieldService::getInstance();
+$field = $service->getField($entityId, $fieldName);
+$enum = $field->getEnums()->findDefault();
+$enum->xmlId;
+$enum->id;
+$enum->isDefault;
+$enum->userFieldId;
+$enum->value;
+
+$enum = Enum::get($entityId, $fieldName, $xmlId);
+$enum = Enum::getByEntityTypeId($entityTypeId, $fieldName, $xmlId);
+$enum = Enum::getByHlBlockId($hlBlockId, $fieldName, $xmlId);
+$enum = Enum::getByHlBlockName($hlBlockName, $fieldName, $xmlId);
+$enum = Enum::getBySmartProcessCode($smartProcessCode, $fieldName, $xmlId);
+$enum = Enum::getBySmartProcessName($smartProcessName, $fieldName, $xmlId);
+```
