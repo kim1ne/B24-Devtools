@@ -220,7 +220,11 @@ $enum = Enum::getBySmartProcessCode($smartProcessCode, $fieldName, $xmlId);
 $enum = Enum::getBySmartProcessName($smartProcessName, $fieldName, $xmlId);
 ```
 
-# Iblock
+# Инфоблоки
+Упрощённая работа с инфоблоками.
+Чтобы использовать методы generateByCode(), generateById() должен быть задан символьный код API и он должен совпадать с обычным символьным кодом.
+
+### Iblock
 ```php
 use B24\Devtools\Data\Iblock;
 
