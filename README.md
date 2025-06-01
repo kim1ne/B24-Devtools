@@ -130,6 +130,18 @@ echo (string) $money; // 14449.1|RUB
 ```
 
 # Пользовательские поля
+Упрощённая работа с пользовательскими полями. Получение EntityId для какой то сущности, получение информации о пользоватеском поле, получение Enum спискового поля.
+
+### EntityName
+```php
+use B24\Devtools\UserField\EntityName;
+
+$entityId = EntityName::byHlBlockId($hlBlockId);
+$entityId = EntityName::byEntityTypeId(\CCrmOwnerType::Deal);
+$entityId = EntityName::byHlBlockName($hlBlockName);
+$entityId = EntityName::bySmartProcessName($smartProcessName);
+$entityId = EntityName::bySmartProcessCode($smartProcessCode);
+```
 
 ### UserFieldService
 ```php
