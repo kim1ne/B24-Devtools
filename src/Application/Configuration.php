@@ -30,7 +30,7 @@ final class Configuration
     {
         return array_merge_recursive(
             $this->configiration,
-            require __DIR__ . '/' . self::DEFAULT_CONFIG
+            require __DIR__ . '/../' . self::DEFAULT_CONFIG
         );
     }
 }
