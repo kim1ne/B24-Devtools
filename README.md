@@ -8,6 +8,11 @@
    * [Пример фабрики](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Пример-фабрики)
    * [Обработчик события на Добавление элемента](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Обработчик-события-на-Добавление-элемента)
 * [Работа с денежными полями](https://github.com/kim1ne/B24-Devtools?tab=readme-ov-file#Работа-с-денежными-полями)
+* [Пользовательские поля](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8F)
+   * [UserFieldService](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#userfieldservice)
+   * [UserField](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#userfield)
+   * [EnumCollection](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#enumcollection)
+   * [Enum](https://github.com/kim1ne/B24-Devtools/tree/main?tab=readme-ov-file#enum)
 
 # Установка
 ```php
