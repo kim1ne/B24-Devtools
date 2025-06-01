@@ -177,7 +177,9 @@ use B24\Devtools\UserField\UserFieldService;
 
 $service = UserFieldService::getInstance();
 $field = $service->getField($entityId, $fieldName);
+
 $enumsCollection = $field->getEnums();
+
 $enums = $enumsCollection->get();
 $enum = $enumsCollection->findByValue($value);
 $enum = $enumsCollection->findByXmlId($xmlId);
